@@ -1,6 +1,6 @@
 {
     "dependencies": {
-        "gn-api-sdk-typescript": "https://github.com/gerencianet/gn-api-sdk-typescript.git",
+        "-typescript-apis-efi": "https://github.com/efipay/sdk-typescript-apis-efi.git",
         "ts-node": "^9.1.1"
     }
 }

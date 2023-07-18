@@ -1,10 +1,10 @@
 /* eslint-disable import/extensions */
-import Gerencianet from 'gn-api-sdk-typescript';
+import EfiPay from 'gn-api-sdk-typescript';
 import options from '../../credentials';
 
-const gerencianet = new Gerencianet(options);
+const efipay = new EfiPay(options);
 
-gerencianet
+efipay
 	.getAccountBalance()
 	.then((resposta: Promise<any>) => {
 		console.log(resposta);

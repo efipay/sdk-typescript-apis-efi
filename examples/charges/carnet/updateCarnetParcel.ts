@@ -1,5 +1,5 @@
 /* eslint-disable import/extensions */
-import Gerencianet from 'gn-api-sdk-typescript';
+import EfiPay from 'gn-api-sdk-typescript';
 import options from '../../credentials';
 
 const params = {
@@ -11,9 +11,9 @@ const body = {
 	expire_at: '2023-12-12',
 };
 
-const gerencianet = new Gerencianet(options);
+const efipay = new EfiPay(options);
 
-gerencianet
+efipay
 	.updateCarnetParcel(params, body)
 	.then((resposta: Promise<any>) => {
 		console.log(resposta);

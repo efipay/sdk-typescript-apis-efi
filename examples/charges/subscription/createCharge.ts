@@ -1,5 +1,5 @@
 /* eslint-disable import/extensions */
-import Gerencianet from 'gn-api-sdk-typescript';
+import EfiPay from 'gn-api-sdk-typescript';
 import options from '../../credentials';
 
 const planBody = {
@@ -18,17 +18,17 @@ const subscriptionBody = {
 	],
 };
 
-const gerencianet = new Gerencianet(options);
+const efipay = new EfiPay(options);
 
 function createSubscription(response) {
 	const params = {
 		id: response.data.plan_id,
 	};
 
-	return gerencianet.createSubscription(params, subscriptionBody);
+	return efipay.createSubscription(params, subscriptionBody);
 }
 
-gerencianet
+efipay
 	.createPlan({}, planBody)
 	.then(createSubscription)
 	.then((resposta: Promise<any>) => {

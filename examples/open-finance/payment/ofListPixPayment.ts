@@ -1,15 +1,15 @@
 /* eslint-disable import/extensions */
-import Gerencianet from 'gn-api-sdk-typescript';
+import EfiPay from 'gn-api-sdk-typescript';
 import options from '../../credentials';
 
-const gerencianet = new Gerencianet(options);
+const efipay = new EfiPay(options);
 
 const params = {
 	inicio: '2022-01-01',
 	fim: '2022-06-30',
 };
 
-gerencianet
+efipay
 	.ofListPixPayment(params, [])
 	.then((resposta: Promise<any>) => {
 		console.log(resposta);

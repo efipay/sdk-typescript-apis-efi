@@ -2,19 +2,19 @@
 /* eslint-disable import/extensions */
 import Endpoints from './src/endpoints';
 import constants from './src/constants';
-import { GnConfig } from './src/interfaces/gnConfig.interface';
-import { GnCredentials } from './src/interfaces/gnCredentials.interface';
+import { EfiConfig } from './src/interfaces/efiConfig.interface';
+import { EfiCredentials } from './src/interfaces/efiCredentials.interface';
 
-class Gerencianet {
+class EfiPay {
 	// eslint-disable-next-line no-undef
 	[index: string]: any;
 
-	constructor(options: GnCredentials) {
+	constructor(options: EfiCredentials) {
 		if (options.pathCert || options.pix_cert) {
 			options.certificate = options.pathCert || options.pix_cert;
 		}
 
-		const credentials: GnConfig = {
+		const credentials: EfiConfig = {
 			client_id: options.client_id,
 			client_secret: options.client_secret,
 			certificate: options.certificate,
@@ -40,5 +40,5 @@ class Gerencianet {
 	}
 }
 
-export default Gerencianet;
-export { GnCredentials };
+export default EfiPay;
+export { EfiCredentials };

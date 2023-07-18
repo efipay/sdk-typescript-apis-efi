@@ -3,7 +3,7 @@
 import axios from 'axios';
 import https from 'https';
 import sdkPackage from '../package.json';
-import { GnConfig } from './interfaces/gnConfig.interface';
+import { EfiConfig } from './interfaces/efiConfig.interface';
 import { EndpointInterface } from './interfaces/endpoint.interface';
 
 class Auth {
@@ -19,7 +19,7 @@ class Auth {
 
 	private authRoute!: EndpointInterface;
 
-	constructor(options: GnConfig, constants: any) {
+	constructor(options: EfiConfig, constants: any) {
 		this.constants = constants;
 		this.client_id = options.client_id;
 		this.client_secret = options.client_secret;

@@ -1,7 +1,7 @@
 {
-  "name": "gn-api-sdk-typescript",
-  "version": "2.0.1",
-  "description": "Module for integration with Gerencianet API\"",
+  "name": "sdk-typescript-apis-efi",
+  "version": "1.0.0",
+  "description": "Module for integration with EfiPay API",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -11,16 +11,16 @@
     "test": "./node_modules/.bin/jest",
     "test-cov": "./node_modules/.bin/jest --coverage"
   },
-  "author": "Gerencianet - Consultoria Tecnica | Palloma Brito | João Vitor Oliveira",
+  "author": "EfiPay - Consultoria Tecnica | João Vitor Oliveira",
   "license": "MIT",
-  "repository": "gerencianet/gn-api-sdk-typescript",
-  "homepage": "https://github.com/gerencianet/gn-api-sdk-typescript",
+  "repository": "efipay/sdk-typescript-apis-efi",
+  "homepage": "https://github.com/efipay/sdk-typescript-apis-efi",
   "files": [
     "dist/*",
     "examples"
   ],
   "keywords": [
-    "gerencianet",
+    "efipay",
     "pagamentos",
     "payment",
     "sdk",

@@ -8,3 +8,4 @@ coverage/
 .idea/
 examples/open-accounts/
 examples/pix/split/
+package-lock.json

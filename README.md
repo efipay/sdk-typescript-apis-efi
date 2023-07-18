@@ -1,13 +1,13 @@
-# gn-api-sdk-typescript
+<h1 align="center">SDK Typescript para APIs Efí Pay</h1>
 
-> A Typescript module for integration of your backend with the payment services provided by [Gerencianet](http://gerencianet.com.br).
+![Banner APIs Efí Pay](https://gnetbr.com/BJgSIUhlYs)
 
-> Um módulo Typescript para integrar seu backend com os serviços de pagamento da [Gerencianet](http://gerencianet.com.br).
 
+> Um módulo Typescript para integrar seu backend com os serviços de pagamento da [Efí](http://sejaefi.com.br).
 ## Instalação
 
 ```bash
-$ npm install gn-api-sdk-typescript
+$ npm install sdk-typescript-apis-efi
 ```
 
 ## Uso Básico
@@ -15,7 +15,7 @@ $ npm install gn-api-sdk-typescript
 Importe o módulo:
 
 ```typescript
-import Gerencianet from 'gn-api-sdk-typescript';
+import EfiPay from 'sdk-typescript-apis-efi';
 ```
 
 Insira suas credenciais e defina se deseja usar o sandbox ou não.
@@ -35,7 +35,7 @@ export = {
 Instancie o módulo passando as options:
 
 ```typescript
-const gerencianet = Gerencianet(options);
+const efipay = EfiPay(options);
 ```
 
 Crie uma cobrança:
@@ -51,7 +51,7 @@ var body = {
 	],
 };
 
-gerencianet
+efipay
 	.createCharge({}, body)
 	.then((resposta: any) => {
 		console.log(resposta);
@@ -67,8 +67,8 @@ gerencianet
 Para executar os exemplos, clone este repo e instale as dependências:
 
 ```bash
-$ git clone git@github.com:gerencianet/gn-api-sdk-typescript.git
-$ cd gn-api-sdk-typescript/examples
+$ git clone git@github.com:efipay/sdk-typescript-apis-efi.git
+$ cd sdk-typescript-apis-efi/examples
 $ npm install
 ```
 
@@ -93,7 +93,7 @@ $ ts-node createCharge.ts
 
 ## Documentação
 
-A documentação completa com todos os endpoints disponíveis você encontra em: https://dev.gerencianet.com.br/.
+A documentação completa com todos os endpoints disponíveis você encontra em: https://dev.efipay.com.br/.
 
 ## License
 

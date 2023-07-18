@@ -3,7 +3,7 @@ import axios from 'axios';
 import fs from 'fs';
 import Auth from '../src/auth';
 import constants from '../src/constants';
-import { GnConfig } from '../src/interfaces/gnConfig.interface';
+import { EfiConfig } from '../src/interfaces/efiConfig.interface';
 
 jest.mock('fs');
 const mockFs = fs as jest.Mocked<typeof fs>;
@@ -33,21 +33,21 @@ jest.mock('axios', () =>
 		}),
 );
 
-const credentialsPix: GnConfig = {
+const credentialsPix: EfiConfig = {
 	sandbox: false,
 	client_id: 'Client_Id',
 	client_secret: 'Client_Secret',
 	certificate: 'Certificado_Pix',
 	authRoute: { route: '/oauth/token', method: 'post' },
-	baseUrl: 'https://api-pix.gerencianet.com.br',
+	baseUrl: 'https://pix.api.efipay.com.br/v2',
 };
 
-const credentials: GnConfig = {
+const credentials: EfiConfig = {
 	sandbox: false,
 	client_id: 'Client_Id',
 	client_secret: 'Client_Secret',
 	authRoute: { route: '/oauth/token', method: 'post' },
-	baseUrl: 'https://api.gerencianet.com.br/v1',
+	baseUrl: 'https://cobrancas.api.efipay.com.br/v1',
 };
 
 describe('Auth Tests', () => {

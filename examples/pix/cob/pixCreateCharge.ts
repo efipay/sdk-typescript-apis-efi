@@ -1,5 +1,5 @@
 /* eslint-disable import/extensions */
-import Gerencianet from 'gn-api-sdk-typescript';
+import EfiPay from 'gn-api-sdk-typescript';
 import options from '../../credentials';
 
 const body = {
@@ -13,7 +13,7 @@ const body = {
 	valor: {
 		original: '123.45',
 	},
-	chave: 'SUACHAVEPIX', // Informe sua chave Pix cadastrada na gerencianet	//o campo abaixo é opcional
+	chave: 'SUACHAVEPIX', // Informe sua chave Pix cadastrada na efipay	//o campo abaixo é opcional
 	infoAdicionais: [
 		{
 			nome: 'Pagamento em',
@@ -30,9 +30,9 @@ const params = {
 	txid: 'dt9BHlyzrb5jrFNAdfEDVpHgiOmDbVq111',
 };
 
-const gerencianet = new Gerencianet(options);
+const efipay = new EfiPay(options);
 
-gerencianet
+efipay
 	.pixCreateCharge(params, body)
 	.then((resposta: Promise<any>) => {
 		console.log(resposta);

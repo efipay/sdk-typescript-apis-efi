@@ -1,5 +1,5 @@
 /* eslint-disable import/extensions */
-import Gerencianet from 'gn-api-sdk-typescript';
+import EfiPay from 'gn-api-sdk-typescript';
 import options from '../../credentials';
 
 // Informe no body somente os dados que deseja atualizar
@@ -25,9 +25,9 @@ const params = {
 	txid: 'dt9BHlyzrb5jrFNAdfEDVpHgiOmDbVqVxd', // Informe o TxId da cobrança
 };
 
-const gerencianet = new Gerencianet(options);
+const efipay = new EfiPay(options);
 
-gerencianet
+efipay
 	.pixUpdateDueCharge(params, body)
 	.then((resposta: Promise<any>) => {
 		console.log(resposta);

@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { PathLike } from 'fs';
 
-export interface GnCredentials {
+export interface EfiCredentials {
 	client_id: string;
 	client_secret: string;
 	certificate?: PathLike | string;

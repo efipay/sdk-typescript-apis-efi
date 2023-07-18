@@ -1,5 +1,5 @@
 /* eslint-disable import/extensions */
-import Gerencianet from 'gn-api-sdk-typescript';
+import EfiPay from 'gn-api-sdk-typescript';
 import options from '../../credentials';
 
 const params = {
@@ -60,7 +60,7 @@ const body = {
 								align: 'left',
 								color: '#000000',
 								style: 'normal',
-								text: 'Confira na documentação da Gerencianet todas as configurações possíveis de um boleto balancete.',
+								text: 'Confira na documentação da EfiPay todas as configurações possíveis de um boleto balancete.',
 								colspan: 4,
 							},
 						],
@@ -71,9 +71,9 @@ const body = {
 	],
 };
 
-const gerencianet = new Gerencianet(options);
+const efipay = new EfiPay(options);
 
-gerencianet
+efipay
 	.defineBalanceSheetBillet(params, body)
 	.then((resposta: Promise<any>) => {
 		console.log(resposta);

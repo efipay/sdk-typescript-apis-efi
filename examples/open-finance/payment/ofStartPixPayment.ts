@@ -1,8 +1,8 @@
 /* eslint-disable import/extensions */
-import Gerencianet from 'gn-api-sdk-typescript';
+import EfiPay from 'gn-api-sdk-typescript';
 import options from '../../credentials';
 
-const gerencianet = new Gerencianet(options);
+const efipay = new EfiPay(options);
 
 const body = {
 	pagador: {
@@ -24,7 +24,7 @@ const body = {
 	infoPagador: 'Cobrança referente ao pedido X',
 };
 
-gerencianet
+efipay
 	.ofStartPixPayment([], body)
 	.then((resposta: Promise<any>) => {
 		console.log(resposta);

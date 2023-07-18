@@ -4,11 +4,11 @@ import https from 'https';
 import axios from 'axios';
 import Auth from './auth';
 import sdkPackage from '../package.json';
-import { GnConfig } from './interfaces/gnConfig.interface';
+import { EfiConfig } from './interfaces/efiConfig.interface';
 import { EndpointInterface } from './interfaces/endpoint.interface';
 
 class Endpoints {
-	private options: GnConfig;
+	private options: EfiConfig;
 
 	private constants: any;
 
@@ -20,7 +20,7 @@ class Endpoints {
 
 	private params: any;
 
-	constructor(options: GnConfig, constants: any) {
+	constructor(options: EfiConfig, constants: any) {
 		this.options = options;
 		this.constants = constants;
 	}

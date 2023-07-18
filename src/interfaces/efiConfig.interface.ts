@@ -3,7 +3,7 @@
 import { PathLike } from 'fs';
 import { EndpointInterface } from './endpoint.interface';
 
-export interface GnConfig {
+export interface EfiConfig {
 	client_id: string;
 	client_secret: string;
 	certificate?: PathLike | string;
