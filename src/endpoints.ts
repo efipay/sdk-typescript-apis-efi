@@ -55,7 +55,7 @@ class Endpoints {
 					this.options.agent = this.agent;
 				}
 			} catch (error) {
-				throw new Error(`FALHA AO LER O CERTIFICADO`);
+				throw new Error(`FALHA AO LER O CERTIFICADO. \nVerifique se o caminho informado está correto: ${this.options.certificate}\n`);
 			}
 		}
 

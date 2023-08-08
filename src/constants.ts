@@ -243,7 +243,7 @@ export default {
 					method: 'get',
 				},
 				pixSend: {
-					route: '/v2/pix/:idEnvio',
+					route: '/v2/gn/pix/:idEnvio',
 					method: 'put',
 				},
 				pixSendDetail: {
