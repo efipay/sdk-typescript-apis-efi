@@ -14,7 +14,7 @@ const body = {
 const efipay = new EfiPay(options);
 
 efipay
-	.resendParcel(params, body)
+	.sendCarnetParcelEmail(params, body)
 	.then((resposta: Promise<any>) => {
 		console.log(resposta);
 	})
