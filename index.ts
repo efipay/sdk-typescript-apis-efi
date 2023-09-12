@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable import/extensions */
-import Endpoints from './src/endpoints';
 import constants from './src/constants';
+import Endpoints from './src/endpoints';
 import { EfiConfig } from './src/interfaces/efiConfig.interface';
 import { EfiCredentials } from './src/interfaces/efiCredentials.interface';
 
@@ -14,15 +14,20 @@ class EfiPay {
 			options.certificate = options.pathCert || options.pix_cert;
 		}
 
+		if (options.cert_base64 && typeof options.certificate === 'string') {
+			options.certificate = Buffer.from(options.certificate, 'base64');
+		}
+
 		const credentials: EfiConfig = {
 			client_id: options.client_id,
 			client_secret: options.client_secret,
 			certificate: options.certificate,
+			cert_base64: options.cert_base64,
 			sandbox: options.sandbox,
 		};
 
-		if(options.pemKey){
-			credentials.pemKey = options.pemKey
+		if (options.pemKey) {
+			credentials.pemKey = options.pemKey;
 		}
 
 		const methods = {};
