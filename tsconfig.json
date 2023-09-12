@@ -70,6 +70,8 @@
     "resolveJsonModule": true
   },
   "exclude": [
-    "examples"
+    "examples",
+    "node_modules",
+    "dist"
   ]
 }
