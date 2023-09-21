@@ -358,6 +358,10 @@ export default {
 					route: '/v2/gn/split/config/:id',
 					method: 'get',
 				},
+				pixSendDetailId: {
+					route: '/v2/gn/pix/enviados/id-envio/:idEnvio',
+					method: 'get',
+				},
 			},
 		},
 		OPENFINANCE: {
@@ -438,9 +442,9 @@ export default {
 					route: '/cadastro/conta-simplificada',
 					method: 'post',
 				},
-				getAccountCertificate: {
+				createAccountCertificate: {
 					route: '/cadastro/conta-simplificada/:identificador/certificado',
-					method: 'get',
+					method: 'post',
 				},
 				getAccountCredentials: {
 					route: '/cadastro/conta-simplificada/:identificador/credenciais',

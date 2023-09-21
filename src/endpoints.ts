@@ -139,7 +139,7 @@ class Endpoints {
 		const accessToken = await this.getAccessToken();
 
 		const headers: any = {
-			'api-sdk': `typescript-${sdkPackage.version}`,
+			'api-sdk': `efi-typescript-${sdkPackage.version}`,
 			'Content-Type': 'application/json',
 			authorization: `Bearer ${accessToken}`,
 		};
