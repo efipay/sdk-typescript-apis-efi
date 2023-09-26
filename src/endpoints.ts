@@ -1,9 +1,9 @@
 /* eslint-disable import/extensions */
+import axios from 'axios';
 import fs from 'fs';
 import https from 'https';
-import axios from 'axios';
-import Auth from './auth';
 import sdkPackage from '../package.json';
+import Auth from './auth';
 import { EfiConfig } from './interfaces/efiConfig.interface';
 import { EndpointInterface } from './interfaces/endpoint.interface';
 
@@ -40,15 +40,15 @@ class Endpoints {
 
 			try {
 				if (this.options.certificate) {
-					if(this.options.pemKey){
+					if (this.options.pemKey) {
 						this.agent = new https.Agent({
-							cert:  fs.readFileSync(this.options.certificate),
-							key:  fs.readFileSync(this.options.pemKey),
+							cert: fs.readFileSync(this.options.certificate),
+							key: fs.readFileSync(this.options.pemKey),
 							passphrase: '',
 						});
-					}else{
+					} else {
 						this.agent = new https.Agent({
-							pfx: fs.readFileSync(this.options.certificate),
+							pfx: this.options.cert_base64 && this.options.certificate instanceof Buffer ? this.options.certificate : fs.readFileSync(this.options.certificate),
 							passphrase: '',
 						});
 					}

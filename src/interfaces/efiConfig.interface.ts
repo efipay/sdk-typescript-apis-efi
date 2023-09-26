@@ -7,6 +7,7 @@ export interface EfiConfig {
 	client_id: string;
 	client_secret: string;
 	certificate?: PathLike | string;
+	cert_base64?: boolean;
 	pemKey?: PathLike | string;
 	sandbox: boolean;
 	partnerToken?: string;
