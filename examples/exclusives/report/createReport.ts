@@ -1,8 +1,7 @@
-/* eslint-disable import/extensions */
-import EfiPay from 'gn-api-sdk-typescript';
+import EfiPay from 'sdk-typescript-apis-efi';
 import options from '../../credentials';
 
-const body = {
+let body = {
 	dataMovimento: '2023-04-24',
 	tipoRegistros: {
 		pixRecebido: true,
@@ -22,15 +21,14 @@ const body = {
 		tarifaTransferenciaEnviada: true,
 		estornoTarifaTransferenciaEnviada: true,
 	},
-};
+}
 
-const efipay = new EfiPay(options);
+const efipay = new EfiPay(options)
 
-efipay
-	.createReport([], body)
-	.then((resposta: Promise<any>) => {
-		console.log(resposta);
+efipay.createReport({}, body)
+	.then((resposta) => {
+		console.log(resposta)
 	})
-	.catch((error: Promise<any>) => {
-		console.log(error);
-	});
+	.catch((error) => {
+		console.log(error)
+	})

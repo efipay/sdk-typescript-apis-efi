@@ -1,23 +1,22 @@
-/* eslint-disable import/extensions */
-import EfiPay from 'gn-api-sdk-typescript';
+import EfiPay from 'sdk-typescript-apis-efi';
 import options from '../../credentials';
 
-const params = {
+let params = {
 	id: 1008,
-};
+}
 
-const body = {
+let body = {
 	notification_url: 'http://yourdomain.com',
 	custom_id: 'my_new_id',
-};
+}
 
-const efipay = new EfiPay(options);
+const efipay = new EfiPay(options)
 
-efipay
-	.updateChargeMetadata(params, body)
-	.then((resposta: Promise<any>) => {
-		console.log(resposta);
+// O método updateChargeMetadata indica os campos que devem ser enviados e que serão retornados
+efipay.updateChargeMetadata(params, body)
+	.then((resposta) => {
+		console.log(resposta) // Aqui você tera acesso a resposta da API e os campos retornados de forma intuitiva
 	})
-	.catch((error: Promise<any>) => {
-		console.log(error);
-	});
+	.catch((error) => {
+		console.log(error)
+	})

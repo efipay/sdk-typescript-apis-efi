@@ -1,12 +1,11 @@
-/* eslint-disable import/extensions */
-import EfiPay from 'gn-api-sdk-typescript';
+import EfiPay from 'sdk-typescript-apis-efi';
 import options from '../../credentials';
 
-const params = {
+let params = {
 	id: 0,
-};
+}
 
-const body = {
+let body = {
 	title: 'Balancete Demonstrativo',
 	body: [
 		{
@@ -60,7 +59,7 @@ const body = {
 								align: 'left',
 								color: '#000000',
 								style: 'normal',
-								text: 'Confira na documentação da EfiPay todas as configurações possíveis de um boleto balancete.',
+								text: 'Confira na documentação da efipay. todas as configurações possíveis de um boleto balancete.',
 								colspan: 4,
 							},
 						],
@@ -69,15 +68,15 @@ const body = {
 			],
 		},
 	],
-};
+}
 
-const efipay = new EfiPay(options);
+const efipay = new EfiPay(options)
 
-efipay
-	.defineBalanceSheetBillet(params, body)
-	.then((resposta: Promise<any>) => {
-		console.log(resposta);
+// O método defineBalanceSheetBillet indica os campos que devem ser enviados e que serão retornados
+efipay.defineBalanceSheetBillet(params, body)
+	.then((resposta) => {
+		console.log(resposta) // Aqui você tera acesso a resposta da API e os campos retornados de forma intuitiva
 	})
-	.catch((error: Promise<any>) => {
-		console.log(error);
-	});
+	.catch((error) => {
+		console.log(error)
+	})

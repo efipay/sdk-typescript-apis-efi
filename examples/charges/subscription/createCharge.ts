@@ -1,14 +1,13 @@
-/* eslint-disable import/extensions */
-import EfiPay from 'gn-api-sdk-typescript';
+import EfiPay from 'sdk-typescript-apis-efi';
 import options from '../../credentials';
 
-const planBody = {
+let planBody = {
 	name: 'My first plan',
 	repeats: 24,
 	interval: 2,
-};
+}
 
-const subscriptionBody = {
+let subscriptionBody = {
 	items: [
 		{
 			name: 'Product 1',
@@ -16,24 +15,25 @@ const subscriptionBody = {
 			amount: 2,
 		},
 	],
-};
-
-const efipay = new EfiPay(options);
-
-function createSubscription(response) {
-	const params = {
-		id: response.data.plan_id,
-	};
-
-	return efipay.createSubscription(params, subscriptionBody);
 }
 
-efipay
-	.createPlan({}, planBody)
+const efipay = new EfiPay(options)
+
+
+function createSubscription(response) {
+	let params = {
+		id: response.data.plan_id,
+	}
+
+	return efipay.createSubscription(params, subscriptionBody)
+}
+
+// O método createPlan indica os campos que devem ser enviados e que serão retornados
+efipay.createPlan({}, planBody)
 	.then(createSubscription)
-	.then((resposta: Promise<any>) => {
-		console.log(resposta);
+	.then((resposta) => {
+		console.log(resposta) // Aqui você tera acesso a resposta da API e os campos retornados de forma intuitiva
 	})
-	.catch((error: Promise<any>) => {
-		console.log(error);
-	});
+	.catch((error) => {
+		console.log(error)
+	})

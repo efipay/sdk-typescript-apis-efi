@@ -1,19 +1,17 @@
-/* eslint-disable import/extensions */
-import EfiPay from 'gn-api-sdk-typescript';
+import EfiPay from 'sdk-typescript-apis-efi';
 import options from '../../credentials';
 
-const params = {
+let params = {
 	inicio: '2022-01-22T16:01:35Z',
-	fim: '2024-11-30T20:10:00Z',
-};
+	fim: '2022-11-30T20:10:00Z',
+}
 
-const efipay = new EfiPay(options);
+const efipay = new EfiPay(options)
 
-efipay
-	.pixListWebhook(params)
-	.then((resposta: Promise<any>) => {
-		console.log(resposta);
+efipay.pixListWebhook(params)
+	.then((resposta) => {
+		console.log(resposta)
 	})
-	.catch((error: Promise<any>) => {
-		console.log(error);
-	});
+	.catch((error) => {
+		console.log(error)
+	})

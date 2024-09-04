@@ -1,12 +1,11 @@
-/* eslint-disable import/extensions */
-import EfiPay from 'gn-api-sdk-typescript';
+import EfiPay from 'sdk-typescript-apis-efi';
 import options from '../../credentials';
 
-const params = {
+let params = {
 	id: 0,
-};
+}
 
-const body = {
+let body = {
 	payment: {
 		credit_card: {
 			payment_token: '33ffd6d982cd63f767fb2ee5c458cd39e8fc0ea0',
@@ -27,15 +26,15 @@ const body = {
 			},
 		},
 	},
-};
+}
 
-const efipay = new EfiPay(options);
+const efipay = new EfiPay(options)
 
-efipay
-	.defineSubscriptionPayMethod(params, body)
-	.then((resposta: Promise<any>) => {
-		console.log(resposta);
+// O método defineSubscriptionPayMethod indica os campos que devem ser enviados e que serão retornados
+efipay.defineSubscriptionPayMethod(params, body)
+	.then((resposta) => {
+		console.log(resposta) // Aqui você tera acesso a resposta da API e os campos retornados de forma intuitiva
 	})
-	.catch((error: Promise<any>) => {
-		console.log(error);
-	});
+	.catch((error) => {
+		console.log(error)
+	})

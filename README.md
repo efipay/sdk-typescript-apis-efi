@@ -1,9 +1,9 @@
-<h1 align="center">SDK Typescript para APIs Efí Pay</h1>
+<h1 align="center">SDK Node.js para APIs Efí Pay</h1>
 
 ![Banner APIs Efí Pay](https://gnetbr.com/BJgSIUhlYs)
 
+> Um módulo nodejs para integrar seu backend com os serviços de pagamento da [Efí](http://sejaefi.com.br).
 
-> Um módulo Typescript para integrar seu backend com os serviços de pagamento da [Efí](http://sejaefi.com.br).
 ## Instalação
 
 ```bash
@@ -14,34 +14,35 @@ $ npm install sdk-typescript-apis-efi
 
 Importe o módulo:
 
-```typescript
+```js
 import EfiPay from 'sdk-typescript-apis-efi';
 ```
 
 Insira suas credenciais e defina se deseja usar o sandbox ou não.
-Você também pode usar o arquivo [examples/config.ts](examples/config.ts) de modelo.
+Você também pode usar o arquivo [examples/credentials.js](examples/credentials.js) de modelo.
 
-```typescript
-export = {
+```js
+export default {
 	// PRODUÇÃO = false
 	// HOMOLOGAÇÃO = true
 	sandbox: false,
-	client_id: 'seuclient_id',
-	client_secret: 'seuclient_secret',
-	certificate: 'caminhoAteOCertificadoPix',
+	client_id: 'seuClientId',
+	client_secret: 'seuClientSecret',
+	certificate: 'caminho/Ate/O/Certificado/Pix',
+	cert_base64: false, // Indica se o certificado está em base64 ou não
 };
 ```
 
 Instancie o módulo passando as options:
 
-```typescript
-const efipay = EfiPay(options);
+```js
+const efipay = new EfiPay(options);
 ```
 
 Crie uma cobrança:
 
-```typescript
-var body = {
+```js
+let chargeInput = {
 	items: [
 		{
 			name: 'Product A',
@@ -52,14 +53,13 @@ var body = {
 };
 
 efipay
-	.createCharge({}, body)
-	.then((resposta: any) => {
+	.createCharge({}, chargeInput)
+	.then((resposta) => {
 		console.log(resposta);
 	})
-	.catch((error: Promise<any>) => {
+	.catch((error) => {
 		console.log(error);
-	})
-	.done();
+	});
 ```
 
 ## Exemplos
@@ -72,28 +72,29 @@ $ cd sdk-typescript-apis-efi/examples
 $ npm install
 ```
 
-Defina suas credenciais em config.ts:
+Defina suas credenciais em credentials.js:
 
-```typescript
-export = {
+```js
+export default {
 	// PRODUÇÃO = false
 	// HOMOLOGAÇÃO = true
 	sandbox: false,
-	client_id: 'seuclient_id',
-	client_secret: 'seuclient_secret',
+	client_id: 'seuClientId',
+	client_secret: 'seuClientSecret',
 	certificate: 'caminhoAteOCertificadoPix',
+	cert_base64: false, // Indica se o certificado está em base64 ou não
 };
 ```
 
 Em seguida, execute o exemplo que você deseja:
 
 ```bash
-$ ts-node createCharge.ts
+$ npx tsx createCharge.ts
 ```
 
 ## Documentação
 
-A documentação completa com todos os endpoints disponíveis você encontra em: https://dev.efipay.com.br/.
+A documentação completa com todos os endpoints disponíveis você encontra em: https://dev.sejaefi.com.br/.
 
 ## License
 

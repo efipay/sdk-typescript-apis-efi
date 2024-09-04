@@ -1,22 +1,21 @@
-/* eslint-disable import/extensions */
-import EfiPay from 'gn-api-sdk-typescript';
+import EfiPay from 'sdk-typescript-apis-efi';
 import options from '../../credentials';
 
-const params = {
+let params = {
 	id: 1008,
-};
+}
 
-const body = {
+let body = {
 	expire_at: '2024-12-12',
-};
+}
 
-const efipay = new EfiPay(options);
+const efipay = new EfiPay(options)
 
-efipay
-	.updateBillet(params, body)
-	.then((resposta: Promise<any>) => {
-		console.log(resposta);
+// O método updateBillet indica os campos que devem ser enviados e que serão retornados
+efipay.updateBillet(params, body)
+	.then((resposta) => {
+		console.log(resposta) // Aqui você tera acesso a resposta da API e os campos retornados de forma intuitiva
 	})
-	.catch((error: Promise<any>) => {
-		console.log(error);
-	});
+	.catch((error) => {
+		console.log(error)
+	})

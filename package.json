@@ -1,56 +1,55 @@
 {
-  "name": "sdk-typescript-apis-efi",
-  "version": "1.0.2",
-  "description": "Module for integration with EfiPay API",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "npx tsc -p ./tsconfig.json",
-    "prepare": "npm run build",
-    "postversion": "git push --tags",
-    "test": "./node_modules/.bin/jest",
-    "test-cov": "./node_modules/.bin/jest --coverage"
-  },
-  "author": "EfiPay - Consultoria Tecnica | João Vitor Oliveira",
-  "license": "MIT",
-  "repository": "efipay/sdk-typescript-apis-efi",
-  "homepage": "https://github.com/efipay/sdk-typescript-apis-efi",
-  "files": [
-    "dist/*",
-    "examples"
-  ],
-  "keywords": [
-    "efipay",
-    "pagamentos",
-    "payment",
-    "sdk",
-    "integração",
-    "integration",
-    "api",
-    "bank slip",
-    "boleto bancario",
-    "credit card",
-    "cartao de credito",
-    "pix"
-  ],
-  "devDependencies": {
-    "@types/jest": "^29.2.4",
-    "@types/node": "^15.14.9",
-    "@typescript-eslint/eslint-plugin": "^4.22.0",
-    "@typescript-eslint/parser": "^4.22.0",
-    "eslint": "^7.25.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-prettier": "^3.4.0",
-    "jest": "^29.3.1",
-    "prettier": "^2.2.1",
-    "ts-jest": "^29.0.3",
-    "ts-node": "^9.1.1",
-    "typescript": "^4.2.4"
-  },
-  "dependencies": {
-    "axios": "^1.2.1",
-    "fs": "*"
-  }
+	"name": "sdk-typescript-apis-efi",
+	"main": "dist/cjs/index.cjs",
+	"types": "dist/types/index.d.ts",
+	"exports": {
+		".": {
+			"require": "./dist/cjs/index.cjs",
+			"import": "./dist/cjs/index.cjs"
+		}
+	},
+	"description": "Module for integration with Efi Bank API",
+	"version": "1.2.0",
+	"deprecated": "Este pacote será descontinuado. Use o 'sdk-node-apis-efi' no lugar.",
+	"author": "Efi Bank - Consultoria Técnica | João Vitor Oliveira | João Lucas",
+	"license": "MIT",
+	"repository": "efipay/sdk-typescript-apis-efi",
+	"homepage": "https://github.com/efipay/sdk-typescript-apis-efi",
+	"keywords": [
+		"efi",
+		"efi pay",
+		"efi bank",
+		"pagamentos",
+		"payment",
+		"sdk",
+		"integração",
+		"integration",
+		"api",
+		"bank slip",
+		"boleto bancario",
+		"credit card",
+		"cartao de credito",
+		"pix",
+		"Open Finance"
+	],
+	"dependencies": {
+		"axios": "^1.2.2",
+		"randomstring": "^1.2.2"
+	},
+	"scripts": {
+		"start": "node app.js",
+		"build": "rollup -c && tsc --project tsconfig.json",
+		"test": "./node_modules/.bin/jest",
+		"test-cov": "./node_modules/.bin/jest --coverage"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.14.6",
+		"@babel/preset-env": "^7.14.5",
+		"@rollup/plugin-babel": "^5.3.0",
+		"@rollup/plugin-json": "^6.1.0",
+		"prettier": "^3.0.3",
+		"rollup": "^2.52.3",
+		"typescript": "^4.3.5",
+		"undici": "^6.19.2"
+	}
 }

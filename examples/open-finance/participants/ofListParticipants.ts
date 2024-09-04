@@ -1,18 +1,16 @@
-/* eslint-disable import/extensions */
-import EfiPay from 'gn-api-sdk-typescript';
+import EfiPay from 'sdk-typescript-apis-efi';
 import options from '../../credentials';
 
-const efipay = new EfiPay(options);
+const efipay = new EfiPay(options)
 
-const params = {
+let params = {
 	nome: '',
-};
+}
 
-efipay
-	.ofListParticipants(params, [])
-	.then((resposta: Promise<any>) => {
-		console.log(resposta);
+efipay.ofListParticipants(params)
+	.then((resposta) => {
+		console.log(resposta)
 	})
-	.catch((error: Promise<any>) => {
-		console.log(error);
-	});
+	.catch((error) => {
+		console.log(error)
+	})

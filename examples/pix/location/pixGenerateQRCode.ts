@@ -1,18 +1,17 @@
-/* eslint-disable import/extensions */
-import EfiPay from 'gn-api-sdk-typescript';
+import EfiPay from 'sdk-typescript-apis-efi';
 import options from '../../credentials';
 
-const params = {
-	id: '95',
-};
+let params = {
+	id: 95,
+}
 
-const efipay = new EfiPay(options);
+const efipay = new EfiPay(options)
 
-efipay
-	.pixGenerateQRCode(params)
-	.then((resposta: Promise<any>) => {
-		console.log(resposta);
+// O método pixGenerateQRCode indica os campos que devem ser enviados e que serão retornados
+efipay.pixGenerateQRCode(params)
+	.then((resposta) => {
+		console.log(resposta) // Aqui você tera acesso a resposta da API e os campos retornados de forma intuitiva
 	})
-	.catch((error: Promise<any>) => {
-		console.log(error);
-	});
+	.catch((error) => {
+		console.log(error)
+	})

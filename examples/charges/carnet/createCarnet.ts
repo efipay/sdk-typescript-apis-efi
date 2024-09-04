@@ -1,8 +1,7 @@
-/* eslint-disable import/extensions */
-import EfiPay from 'gn-api-sdk-typescript';
+import EfiPay from 'sdk-typescript-apis-efi';
 import options from '../../credentials';
 
-const body = {
+let body = {
 	items: [
 		{
 			name: 'Carnet Item 1',
@@ -19,16 +18,16 @@ const body = {
 	},
 	repeats: 12,
 	split_items: false,
-	expire_at: '2023-01-01',
-};
+	expire_at: '2023-01-01'
+}
 
-const efipay = new EfiPay(options);
+const efipay = new EfiPay(options)
 
-efipay
-	.createCarnet({}, body)
-	.then((resposta: Promise<any>) => {
-		console.log(resposta);
+// O método createCarnet indica os campos que devem ser enviados e que serão retornados
+efipay.createCarnet({}, body)
+	.then((resposta) => {
+		console.log(resposta) // Aqui você tera acesso a resposta da API e os campos retornados de forma intuitiva
 	})
-	.catch((error: Promise<any>) => {
-		console.log(error);
-	});
+	.catch((error) => {
+		console.log(error)
+	})

@@ -1,18 +1,16 @@
-/* eslint-disable import/extensions */
-import EfiPay from 'gn-api-sdk-typescript';
+import EfiPay from 'sdk-typescript-apis-efi';
 import options from '../../credentials';
 
-const params = {
+let params = {
 	chave: 'SUACHAVEPIX',
-};
+}
 
-const efipay = new EfiPay(options);
+const efipay = new EfiPay(options)
 
-efipay
-	.pixDetailWebhook(params)
-	.then((resposta: Promise<any>) => {
-		console.log(resposta);
+efipay.pixDetailWebhook(params)
+	.then((resposta) => {
+		console.log(resposta)
 	})
-	.catch((error: Promise<any>) => {
-		console.log(error);
-	});
+	.catch((error) => {
+		console.log(error)
+	})

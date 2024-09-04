@@ -1,12 +1,11 @@
-/* eslint-disable import/extensions */
-import EfiPay from 'gn-api-sdk-typescript';
+import EfiPay from 'sdk-typescript-apis-efi';
 import options from '../../credentials';
 
-const params = {
+let params = {
 	id: 0,
-};
+}
 
-const body = {
+let body = {
 	items: [
 		{
 			name: 'Product One',
@@ -19,15 +18,14 @@ const body = {
 		expire_at: '2022-12-15',
 		request_delivery_address: false,
 	},
-};
+}
 
-const efipay = new EfiPay(options);
+const efipay = new EfiPay(options)
 
-efipay
-	.oneStepSubscriptionLink(params, body)
-	.then((resposta: Promise<any>) => {
-		console.log(resposta);
+// O método oneStepSubscriptionLink indica os campos que devem ser enviados e que serão retornados
+efipay.oneStepSubscriptionLink(params, body)
+	.then((resposta) => {
+		console.log(resposta) // Aqui você tera acesso a resposta da API e os campos retornados de forma intuitiva
+	}).catch((error) => {
+		console.log(error)
 	})
-	.catch((error: Promise<any>) => {
-		console.log(error);
-	});

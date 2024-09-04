@@ -1,19 +1,17 @@
-/* eslint-disable import/extensions */
-import EfiPay from 'gn-api-sdk-typescript';
+import EfiPay from 'sdk-typescript-apis-efi';
 import options from '../../credentials';
 
-const efipay = new EfiPay(options);
+const efipay = new EfiPay(options)
 
-const body = {
+let body = {
 	redirectURL: 'https:/suaUrl.com.br/redirect',
 	webhookURL: 'https://suaUrl.com.br/webhook',
-};
+}
 
-efipay
-	.ofConfigUpdate([], body)
-	.then((resposta: Promise<any>) => {
-		console.log(resposta);
+efipay.ofConfigUpdate({}, body)
+	.then((resposta) => {
+		console.log(resposta)
 	})
-	.catch((error: Promise<any>) => {
-		console.log(error);
-	});
+	.catch((error) => {
+		console.log(error)
+	})
