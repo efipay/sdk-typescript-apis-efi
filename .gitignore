@@ -2,11 +2,6 @@ node_modules
 *.p12
 *.pem
 simulaMod.ts
-teste.ts
 npm-debug.log
 coverage/
 .idea/
-examples/open-accounts/
-examples/pix/split/
-package-lock.json
-dist/

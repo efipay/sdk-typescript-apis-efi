@@ -9,7 +9,7 @@
 		}
 	},
 	"description": "Module for integration with Efi Bank API",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"deprecated": "Este pacote será descontinuado. Use o 'sdk-node-apis-efi' no lugar.",
 	"author": "Efi Bank - Consultoria Técnica | João Vitor Oliveira | João Lucas",
 	"license": "MIT",
