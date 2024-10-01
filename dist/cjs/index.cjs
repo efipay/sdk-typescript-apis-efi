@@ -579,7 +579,7 @@ var exports$1 = {
 	}
 };
 var description = "Module for integration with Efi Bank API";
-var version = "1.2.2";
+var version = "1.2.3";
 var deprecated = "Este pacote será descontinuado. Use o 'sdk-node-apis-efi' no lugar.";
 var author = "Efi Bank - Consultoria Técnica | João Vitor Oliveira | João Lucas";
 var license = "MIT";
@@ -2819,7 +2819,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **POST /v2/cob**
    * 
-   * Cria uma nova cobrança com vencimento.
+   * Cria uma cobrança imediata (sem txid)
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `nome` e `mensagem`.
    * 
@@ -2861,7 +2861,7 @@ class PixMethods extends CobrancasMethods {
    *   },
    *   location: string,
    *   status: string,
-   *   devedor: {
+   *   devedor?: {
    *     cpf?: string,
    *     cnpj?: string,
    *     nome: string
@@ -2879,7 +2879,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **PUT /v2/cob/:txid**
    * 
-   * Atualiza uma cobrança existente.
+   * Cria uma cobrança imediata (com txid)
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `nome` e `mensagem`.`
    *
@@ -2888,7 +2888,7 @@ class PixMethods extends CobrancasMethods {
    *   calendario: {
    *     expiracao: number
    *   },
-   *   devedor: {
+   *   devedor?: {
    *     cpf?: string,
    *     cnpj?: string,
    *     nome: string
@@ -2921,7 +2921,7 @@ class PixMethods extends CobrancasMethods {
    *   },
    *   location: string,
    *   status: string,
-   *   devedor: {
+   *   devedor?: {
    *     cpf?: string,
    *     cnpj?: string,
    *     nome: string
@@ -2939,7 +2939,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * PATCH /v2/cob/:txid
    * 
-   * Atualiza informações de uma cobrança existente baseada no TXID.
+   * Revisar cobrança. Apenas os campos fornecidos serão atualizados.
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `nome` e `mensagem`.
    * @param { { txid: string } } params
@@ -2993,7 +2993,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * GET /v2/cob/:txid
    * 
-   * Recupera informações de uma cobrança existente baseada no TXID.
+   * Recupera informações de uma cobrança existente baseada no txid.
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `nome` e `mensagem`.
    * 
@@ -3116,7 +3116,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **PUT /v2/cobv/:txid**
    * 
-   * Atualiza uma cobrança com vencimento existente.
+   * Cria uma cobrança com vencimento (CobV).
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `type`, `title`, `status`, `detail` e dependendo da falha `violacoes`.
    * 
@@ -3234,7 +3234,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **PATCH /v2/cobv/:txid**
    * 
-   * Atualiza parcialmente uma cobrança com vencimento existente. Apenas os campos fornecidos serão atualizados.
+   * Revisar cobrança com vencimento (CobV). Apenas os campos fornecidos serão atualizados.
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `type`, `title`, `status`, `detail` e dependendo da falha `violacoes`.
    * 
@@ -3349,7 +3349,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **GET /v2/cobv/:txid**
    * 
-   * Obtém os detalhes de uma cobrança com vencimento existente.
+   * Obtém os detalhes de uma cobrança com vencimento (CobV) existente.
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `type`, `title`, `status`, `detail` e dependendo da falha `violacoes`.
    * 
@@ -3398,7 +3398,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **GET /v2/cobv**
    * 
-   * Obtém uma lista de cobranças com vencimento.
+   * Obtém uma lista de cobranças com vencimento (CobV).
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `type`, `title`, `status`, `detail` e dependendo da falha `violacoes`.
    * 
@@ -3530,7 +3530,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **GET /v2/gn/pix/enviados/:e2eId**
    * 
-   * Consulta os dados de uma transferência PIX enviada.
+   * Consulta os dados de uma transferência Pix enviada.
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `type`, `title`, `status`, `detail` e dependendo da falha `violacoes`.
    * 
@@ -3568,7 +3568,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **GET /v2/gn/pix/enviados/id-envio/:idEnvio**
    * 
-   * Consulta os dados de uma transferência PIX enviada pelo identificador de envio.
+   * Consulta os dados de uma transferência Pix enviada pelo identificador de envio.
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `type`, `title`, `status`, `detail` e dependendo da falha `violacoes`.
    * 
@@ -3605,7 +3605,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **GET /v2/gn/pix/enviados**
    * 
-   * Consulta as transferências PIX enviadas.
+   * Consulta as transferências Pix enviadas.
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `type`, `title`, `status`, `detail` e dependendo da falha `violacoes`.
    * 
@@ -3647,7 +3647,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **POST /v2/gn/qrcodes/detalhar**
    * 
-   * Detalha um QR Code PIX.
+   * Detalha um QR Code Pix.
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `type`, `title`, `status`, `detail` e dependendo da falha `violacoes`.
    * 
@@ -3786,7 +3786,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **PUT /v2/pix/:e2eId/devolucao/:id**
    * 
-   * Solicita a devolução de um pagamento Pix.
+   * Realiza a devolução de um pagamento Pix recebido.
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `nome` e `mensagem`.
    * 
@@ -3851,7 +3851,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **GET /v2/loc**
    * 
-   * Retorna uma lista de localizações (locations) de QR Codes.
+   * Retorna uma lista de location de QR Codes.
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `nome` e `mensagem`
    * 
@@ -3885,7 +3885,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **GET /v2/loc/:id**
    * 
-   * Retorna os detalhes de uma localização (location) específica de QR Code.
+   * Retorna os detalhes de um location específico de QR Code.
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `nome` e `mensagem`
    * 
@@ -3904,7 +3904,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **GET /v2/loc/:id/qrcode**
    * 
-   * Retorna os detalhes do QR Code de uma localização (location) específica de QR Code.
+   * Retorna os detalhes do QR Code de um location específico
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `nome` e `mensagem`
    * 
@@ -3921,7 +3921,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **DELETE /v2/loc/:id/txid**
    * 
-   * Remove o txid associado a uma localização (location) específica de QR Code.
+   * Remove o txid associado a um location específica.
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `nome` e `mensagem`
    * 
@@ -3939,7 +3939,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **PUT /v2/lotecobv/:id**
    * 
-   * Atualiza um lote de cobranças com vencimento (cobranças registradas).
+   * Cria/Altera um lote de cobranças com vencimento (CobV).
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `nome` e `mensagem`.
    * 
@@ -4030,7 +4030,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **PATCH /v2/lotecobv/:id**
    * 
-   * Atualiza parcialmente um lote de cobranças com vencimento.
+   * Revisar cobranças específicas de um lote.
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `nome` e `mensagem`.
    * 
@@ -4089,7 +4089,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **GET /v2/lotecobv/:id**
    * 
-   * Obtém informações sobre um lote de cobranças com vencimento.
+   * Obtém informações sobre um lote de cobranças com vencimento (CobV).
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `nome` e `mensagem`.
    * 
@@ -4122,7 +4122,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **GET /v2/lotecobv**
    * 
-   * Obtém uma lista de cobranças com vencimento.
+   * Obtém uma lista de cobranças com vencimento (CobV).
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `nome` e `mensagem`.
    * 
@@ -4159,7 +4159,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **POST /v2/gn/split/config**
    * 
-   * Configura a divisão de recebíveis (split).
+   * Cria uma configuração split de recebimentos (sem passar id)
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `type`, `title`, `status`, `detail` e dependendo da falha `violacoes`.
    * 
@@ -4220,7 +4220,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **PUT /v2/gn/split/config/:id**
    * 
-   * Atualiza a configuração de divisão de recebíveis (split).
+   * Cria/Atualiza uma configuração split de recebimentos (com id)
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `type`, `title`, `status`, `detail` e dependendo da falha `violacoes`.
    * 
@@ -4281,7 +4281,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **GET /v2/gn/split/config/:id**
    * 
-   * Obtém a configuração de divisão de recebíveis (split).
+   * Consulta uma configuração do Split pelo id
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `type`, `title`, `status`, `detail` e dependendo da falha `violacoes`.
    * 
@@ -4319,7 +4319,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **PUT /v2/gn/split/cob/:txid/vinculo/:splitConfigId**
    * 
-   * Vincula uma configuração de divisão de recebíveis (split) a uma cobrança Pix existente.
+   * Vincula uma cobrança a um Split de pagamento
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `type`, `title`, `status`, `detail` e dependendo da falha `violacoes`.
    * 
@@ -4332,7 +4332,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **PUT /v2/gn/split/cobv/:txid/vinculo/:splitConfigId**
    * 
-   * Vincula uma configuração de divisão de recebíveis (split) a uma cobrança com vencimento Pix existente.
+   * Vincula uma cobrança com vencimento (CobV) a um Split de pagamento
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `type`, `title`, `status`, `detail` e dependendo da falha `violacoes`.
    * 
@@ -4345,7 +4345,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **DELETE /v2/gn/split/cob/:txid/vinculo**
    * 
-   * Remove o vínculo de uma configuração de divisão de recebíveis (split) de uma cobrança Pix existente.
+   * Deleta o vínculo entre um Split de pagamento e uma cobrança
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `type`, `title`, `status`, `detail` e dependendo da falha `violacoes`.
    * 
@@ -4358,7 +4358,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **DELETE /v2/gn/split/cobv/:txid/vinculo**
    * 
-   * Remove o vínculo de uma configuração de divisão de recebíveis (split) de uma cobrança com vencimento Pix existente.
+   * Deleta o vínculo entre um Split de pagamento e uma cobrança com vencimento (CobV).
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `type`, `title`, `status`, `detail` e dependendo da falha `violacoes`.
    * 
@@ -4417,7 +4417,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **GET /v2/gn/split/cobv/:txid**
    * 
-   * Obtém os detalhes de uma cobrança com vencimento Pix (cobv) vinculada a uma configuração de divisão de recebíveis (split).
+   * Obtém os detalhes de uma cobrança com vencimento Pix (CobV) vinculada a uma configuração de divisão de recebíveis (split).
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `type`, `title`, `status`, `detail` e dependendo da falha `violacoes`.
    * 
@@ -4473,7 +4473,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **PUT /v2/webhook/:chave**
    * 
-   * Atualiza a URL do webhook associado à chave Pix.
+   * Configura a URL do webhook associado à chave Pix.
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `nome` e `mensagem`.
    * 
@@ -4566,7 +4566,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **GET /v2/gn/evp**
    * 
-   * Recupera todas as chaves EVP (Endereço Virtual de Pagamento).
+   * Recupera todas as chaves EVP.
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `nome` e `mensagem`.
    * 
@@ -4579,7 +4579,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **DELETE /v2/gn/evp/:chave**
    * 
-   * Deleta uma chave EVP (Endereço Virtual de Pagamento) específica.
+   * Deleta uma chave EVP específica.
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `nome` e `mensagem`.
    * 
@@ -4610,7 +4610,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **PUT /v2/gn/config**
    * 
-   * Configurações para recebimento e envio de PIX.
+   * Cria/modifica as configurações da conta.
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `nome` e `mensagem`.
    * 
@@ -4654,7 +4654,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **GET /v2/gn/config**
    * 
-   * Obtém as configurações para recebimento e envio de PIX.
+   * Lista as configurações da conta
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `nome` e `mensagem`.
    * 
@@ -4695,7 +4695,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **GET /v2/gn/infracoes**
    * 
-   * Obtém a lista de infrações no sistema.
+   * Lista as infrações MED da conta
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `type`, `title`, `status`, `detail` e dependendo da falha `violacoes`.
    * 
@@ -4758,7 +4758,7 @@ class PixMethods extends CobrancasMethods {
   /**
    * **POST /v2/gn/infracoes/:idInfracao/defesa**
    * 
-   * Envia a defesa para uma infração específica.
+   * Submete uma defesa de infração MED
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `type`, `title`, `status`, `detail` e dependendo da falha `violacoes`.
    * 
