@@ -642,26 +642,30 @@ export class OpenFinanceMethods extends PixMethods {
      * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `nome` e `mensagem`.
      *
      * @param {{ identificadorPagamento: string }} params
-     * @param {{ valor: string }} body
+     * @param {Array<{
+     *  endToEndId: string,
+     *  valor: string
+     * }>} body
      *
-     * @returns { Promise<{
+     * @returns { Promise<Array<{
      *  identificadorPagamento: string,
      *  endToEndId: string,
      *  valor: string,
      *  dataCriacao: string,
      *  status: string,
-     * }>}
+     * }>>}
      */
     ofDevolutionRecurrencyPix(params: {
         identificadorPagamento: string;
-    }, body: {
+    }, body: Array<{
+        endToEndId: string;
         valor: string;
-    }): Promise<{
+    }>): Promise<Array<{
         identificadorPagamento: string;
         endToEndId: string;
         valor: string;
         dataCriacao: string;
         status: string;
-    }>;
+    }>>;
 }
 import { PixMethods } from "./pix";

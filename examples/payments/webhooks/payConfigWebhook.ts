@@ -1,9 +1,9 @@
-const EfiPay = require('sdk-node-apis-efi')
-let options = require('../../credentials')
+import EfiPay from 'sdk-typescript-apis-efi';
+import options from '../../credentials';
 
 
 let body = {
-    url : 'https://suaUrl.com.br/webhook',
+    url: 'https://suaUrl.com.br/webhook',
 }
 
 const efipay = new EfiPay(options)

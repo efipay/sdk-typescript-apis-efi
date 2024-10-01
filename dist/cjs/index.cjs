@@ -579,7 +579,7 @@ var exports$1 = {
 	}
 };
 var description = "Module for integration with Efi Bank API";
-var version = "1.2.1";
+var version = "1.2.2";
 var deprecated = "Este pacote será descontinuado. Use o 'sdk-node-apis-efi' no lugar.";
 var author = "Efi Bank - Consultoria Técnica | João Vitor Oliveira | João Lucas";
 var license = "MIT";
@@ -3516,25 +3516,13 @@ class PixMethods extends CobrancasMethods {
    * } } body
    * 
    * @returns {Promise<{
+   *   idEnvio: string,
+   *   e2eId: string,
    *   valor: string,
-   *   pagador: {
-   *     chave: string,
-   *     infoPagador?: string
-   *   },
-   *   favorecido: {
-   *     chave?: string,
-   *     contaBanco?: {
-   *       nome: string,
-   *       cpf?: string,
-   *       cnpj?: string,
-   *       codigoBanco: string,
-   *       agencia: string,
-   *       conta: string,
-   *       tipoConta: string
-   *     },
-   *     cpf?: string,
-   *     cnpj?: string
+   *   horario: {
+   *      solicitacao: string
    *   }
+   *   status: string
    * }>}
    */
   pixSend(params, body) {}
@@ -5282,15 +5270,18 @@ class OpenFinanceMethods extends PixMethods {
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `nome` e `mensagem`.
    * 
    * @param {{ identificadorPagamento: string }} params 
-   * @param {{ valor: string }} body 
+   * @param {Array<{
+   *  endToEndId: string, 
+   *  valor: string 
+   * }>} body 
    * 
-   * @returns { Promise<{
+   * @returns { Promise<Array<{
    *  identificadorPagamento: string,
    *  endToEndId: string,
    *  valor: string,
    *  dataCriacao: string,
    *  status: string,
-   * }>}
+   * }>>}
    */
   ofDevolutionRecurrencyPix(params, body) {}
 }

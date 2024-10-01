@@ -1,5 +1,5 @@
-const EfiPay = require('sdk-node-apis-efi')
-const options = require('../../../credentials')
+import EfiPay from 'sdk-typescript-apis-efi'
+import options from '../../../credentials'
 
 const efipay = new EfiPay(options)
 
@@ -11,8 +11,8 @@ let body = {
     valor: '0.01',
 }
 
-// O método ofDevolutionRecurrencyPix indica os campos que devem ser enviados e que serão retornados
-efipay.ofDevolutionRecurrencyPix(params, body)
+// O método ofDevolutionSchedulePix indica os campos que devem ser enviados e que serão retornados
+efipay.ofDevolutionSchedulePix(params, body)
     .then((resposta) => {
         console.log(resposta) // Aqui você tera acesso a resposta da API e os campos retornados de forma intuitiva
     })

@@ -1,5 +1,5 @@
-const EfiPay = require('sdk-node-apis-efi')
-const options = require('../../../credentials')
+import EfiPay from 'sdk-typescript-apis-efi'
+import options from '../../../credentials'
 
 const efipay = new EfiPay(options)
 
