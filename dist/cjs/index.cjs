@@ -285,7 +285,7 @@ var constants = {
           method: 'get'
         },
         pixSend: {
-          route: '/v2/gn/pix/:idEnvio',
+          route: '/v3/gn/pix/:idEnvio',
           method: 'put'
         },
         pixSendDetail: {
@@ -495,6 +495,10 @@ var constants = {
         ofDevolutionRecurrencyPix: {
           route: '/pagamentos-recorrentes/pix/:identificadorPagamento/devolver',
           method: 'post'
+        },
+        ofReplaceRecurrencyPixParcel: {
+          route: '/pagamentos-recorrentes/pix/:identificadorPagamento/substituir/:endToEndId',
+          method: 'patch'
         }
       }
     },
@@ -579,7 +583,7 @@ var exports$1 = {
 	}
 };
 var description = "Module for integration with Efi Bank API";
-var version = "1.2.3";
+var version = "1.2.4";
 var deprecated = "Este pacote será descontinuado. Use o 'sdk-node-apis-efi' no lugar.";
 var author = "Efi Bank - Consultoria Técnica | João Vitor Oliveira | João Lucas";
 var license = "MIT";
@@ -694,14 +698,14 @@ class Endpoints {
         }
       } catch (error) {
         if (this.options.pemKey && (this.options.cert_base64 === undefined || this.options.cert_base64 === false)) {
-          throw `FALHA AO LER O CERTIFICADO OU A CHAVE, VERIFIQUE O CAMINHO INFORMADO:\n CAMINHO DO CERTIFICADO: ${this.options.certificate} \n CAMINHO DA CHAVE: ${this.options.pemKey}`;
+          console.error(`Falha ao ler o certificado ou a chave, verifique o caminho informado:\nCaminho do certificado: ${this.options.certificate}\nCaminho da chave: ${this.options.pemKey}`);
         } else if (this.options.cert_base64 === undefined || this.options.cert_base64 === false) {
-          throw `FALHA AO LER O CERTIFICADO, VERIFIQUE O CAMINHO INFORMADO: ${this.options.certificate}`;
+          console.error(`Falha ao ler o certificado, verifique o caminho informado: ${this.options.certificate}`);
         }
         if (this.options.pemKey && this.options.cert_base64 === true) {
-          throw `FALHA AO LER O CERTIFICADO OU A CHAVE, VERIFIQUE O CONTEÚDO INFORMADO DO CERTIFICADO E DA CHAVE`;
+          console.error(`Falha ao ler o certificado ou a chave, verifique o conteúdo informado do certificado e da chave`);
         } else if (this.options.cert_base64 === true) {
-          throw `FALHA AO LER O CERTIFICADO, VERIFIQUE O CONTEÚDO INFORMADO`;
+          console.error(`Falha ao ler o certificado, verifique o conteúdo informado`);
         }
       }
     }
@@ -737,7 +741,18 @@ class Endpoints {
       return res.data;
     }).catch(error => {
       if (this.authError) {
-        throw this.authError.response.data;
+        const error = this.authError?.response?.data || this.authError?.cause || this.authError;
+        switch (error.message) {
+          case 'socket hang up':
+            throw 'Verifique o atributo sandbox e certificate, e garanta que eles estejam corretamente atribuidos para o ambiente desejado';
+          case 'header too long':
+            throw 'Verifique se o certificado foi enviado no formato correto';
+          case 'wrong tag':
+          case 'error:0909006C:PEM routines:get_name:no start line':
+            throw 'Foi enviando um certificado .pem porém não foi enviado o atributo pemKey corretamente, tente enviar o mesmo valor para ambos';
+          default:
+            throw error;
+        }
       } else {
         switch (this.baseUrl) {
           case this.constants.APIS.DEFAULT.URL.PRODUCTION:
@@ -888,7 +903,7 @@ class CobrancasMethods {
    *   shippings?: Array<{
    *     name: string,
    *     value: number,
-   *     payee_code: string
+   *     payee_code?: string
    *   }>,
    *   metadata?: {
    *     custom_id?: string,
@@ -1027,7 +1042,7 @@ class CobrancasMethods {
    *   shippings?: Array<{
    *     name: string,
    *     value: number,
-   *     payee_code: string
+   *     payee_code?: string
    *   }>,
    *   metadata?: {
    *     custom_id?: string,
@@ -1304,8 +1319,8 @@ class CobrancasMethods {
    *  begin_date: string,
    *  end_date: string,
    *  charge_type: 'billet' | 'card' | 'carnet' | 'subscription',
-   *  status?: 'new' | 'waiting' | 'link' | 'paid' | 'unpaid' | 'canceled' | 'identified',
-   *  date_of?: 'creation' | 'payment' | 'due',
+   *  status?: 'new' | 'waiting' | 'link' | 'paid' | 'unpaid' | 'canceled' | 'identified' | 'settled'
+   *  date_of?: 'creation' | 'payment' | 'expired',
    *  customer_document?: string,
    *  custom_id?: string,
    *  value?: number,
@@ -1316,105 +1331,60 @@ class CobrancasMethods {
    * 
    * @returns {Promise<{
    *  code: number,
-   *  data: Arrat<{
-   *     charge_id: number,
+   *  data: Array<{
+   *     id: number,
    *     total: number,
    *     status: string,
-   *     reason?: string,
    *     custom_id: string | null,
    *     created_at: string,
-   *     notification_url: string | null,
-   *     items: Array<{
-   *       name: string,
-   *       value: number,
-   *       amount: number
-   *     }>,
-   *     shippings?: Array<{
-   *       name: string,
-   *       value: number,
-   *       payee_code: string
-   *     }>,
-   *     history: Array<{
-   *       message: string,
-   *       created_at: string
-   *     }>,
-   *     customer?: {
-   *       name: string | null,
-   *       cpf: string | null,
-   *       birth?: string,
-   *       email?: string,
-   *       phone_number?: string,
-   *       address?: {
-   *         street: string,
-   *         number: string,
-   *         complement: string | null,
-   *         neighborhood: string,
-   *         city: string,
-   *         state: string,
-   *         zipcode: string
-   *       }
+   *     customer: {
+   *       phone_number: string | null,
+   *       cnpj?: string,  
+   *       cpf?: string
+   *       name?: string
+   *       corporate_name?: string
    *     },
    *     payment?: {
-   *       method: string,
-   *       created_at: string,
-   *       message: string | null,
-   *       banking_billet?: {
+   *       payment_method: string,
+   *       paid_at: string | null,
+   *       pix?: {
+   *         qrcode: string,
+   *         qrcode_image: string 
+   *      }
+   *      banking_billet?: {
    *         barcode: string,
-   *         pix?: {
-   *           qrcode: string,
-   *           qrcode_image: string
-   *         },
    *         link: string,
+   *         expire_at: string
    *         pdf: {
    *           charge: string
-   *         },
-   *         expire_at: string
-   *       },
-   *       credit_card?: {
-   *         mask: string,
-   *         installments: number,
-   *         installment_value: number,
-   *         address: {
-   *           street: string,
-   *           number: string,
-   *           complement: string | null,
-   *           neighborhood: string,
-   *           city: string,
-   *           state: string,
-   *           zipcode: string
    *         }
    *       },
    *       carnet?: {
    *         parcel: number,
    *         barcode: string,
-   *         pix?: {
-   *           qrcode: string,
-   *           qrcode_image: string
-   *         },
-   *         url: string,
-   *         parcel_link: string,
+   *         expire_at: string,
+   *         link: string,
+   *         configurations: {
+   *           days_to_write_off: number,
+   *           interest_type?: 'monthly' | 'daily',
+   *           interest: number,
+   *           fine: number
+   *         }
    *         pdf: {
    *           charge: string
    *         },
-   *         expire_at: string,
-   *         configurations?: {
-   *           days_to_write_off?: number,
-   *           interest_type?: 'monthly' | 'daily',
-   *           interest?: number,
-   *           fine?: number
-   *         }
    *       }
    *     },
    *     link?: {
    *       billet_discount: number | null,
    *       card_discount: number | null,
    *       conditional_discount_value: number | null,
-   *       conditional_discount_type: string | null,
+   *       conditional_discount_type: 'percentage' | 'currency' | null,
    *       conditional_discount_date: string | null,
    *       message: string | null,
    *       expire_at: string,
    *       request_delivery_address: boolean,
-   *       payment_method: string,
+   *       payment_method: 'banking_billet' | 'credit_card' | 'all',
    *       payment_url: string
    *     }
    *   }>
@@ -2093,7 +2063,7 @@ class CobrancasMethods {
    *   shippings?: Array<{
    *     name: string,
    *     value: number,
-   *     payee_code: string
+   *     payee_code?: string
    *   }>,
    *   metadata?: {
    *     custom_id?: string,
@@ -2229,7 +2199,7 @@ class CobrancasMethods {
    *   shippings?: Array<{
    *     name: string,
    *     value: number,
-   *     payee_code: string
+   *     payee_code?: string
    *   }>,
    *   metadata?: {
    *     custom_id?: string,
@@ -2438,7 +2408,7 @@ class CobrancasMethods {
    *   shippings?: Array<{
    *     name: string,
    *     value: number,
-   *     payee_code: string
+   *     payee_code?: string
    *   }>,
    *   metadata?: {
    *     custom_id?: string,
@@ -3486,7 +3456,7 @@ class PixMethods extends CobrancasMethods {
   pixListDueCharges(params) {}
 
   /**
-   * **PUT /v2/gn/pix/:idEnvio**
+   * **PUT /v3/gn/pix/:idEnvio**
    * 
    * Realiza o envio de Pix.
    * 
@@ -4895,7 +4865,9 @@ class OpenFinanceMethods extends PixMethods {
    * 
    * @param { { 
    *  nome?: string,
-   *  organizacao?: boolean
+   *  organizacao?: boolean,
+   *  modalidade?: 'imediato' | 'recorrente' | 'agendado',
+   *  tipoPessoa?: 'PJ' | 'PF'
    *  } } params 
    * 
    * @returns { Promise<{
@@ -5244,7 +5216,7 @@ class OpenFinanceMethods extends PixMethods {
   /**
    * **PATCH /v1/pagamentos-recorrentes/pix/:identificadorPagamento/cancelar**
    * 
-   * Cancelar um pagamento recorrente
+   * Este endpoint é utilizado para cancelar um pagamento recorrente. Deve receber como entrada um identificadorPagamento ou EndToEndId válido no parametro.
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `nome` e `mensagem`.
    * 
@@ -5265,7 +5237,7 @@ class OpenFinanceMethods extends PixMethods {
   /**
    * **POST /v1/pagamentos-recorrentes/pix/:identificadorPagamento/devolver**
    * 
-   * Efetuar uma devolução de um pagamento recorrente
+   * Este endpoint é utilizado para realizar a devolução de um pagamento recorrente. Deve receber como entrada um endToEndId válido e o valor a ser devolvido no corpo da requisição.
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `nome` e `mensagem`.
    * 
@@ -5284,6 +5256,28 @@ class OpenFinanceMethods extends PixMethods {
    * }>>}
    */
   ofDevolutionRecurrencyPix(params, body) {}
+
+  /**
+   * **PATCH /v1/pagamentos-recorrentes/pix/:identificadorPagamento/substituir/:endToEndId**
+   * 
+   * Este endpoint é uma ferramenta para substituição de parcelas para pagamentos recorrentes. Este endpoint deve receber um identificadorPagamento e um endToEndId válido como parâmetros. Também é possivel informar o campo valor no body da requisição para especificar um valor para a nova parcela, se não informado o sistema entende que a nova parcela terá o mesmo valor da pacela anterior.
+   * 
+   * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `nome` e `mensagem`.
+   * 
+   * @param {{ 
+   *  identificadorPagamento: string
+   *  endToEndId: string
+   *  }} params 
+   * @param {{
+   *  valor: string 
+   * }} body 
+   * 
+   * @returns { Promise<{
+   *  identificadorPagamento: string,
+   *  redirectURI: string,
+   * }>}
+   */
+  ofReplaceRecurrencyPixParcel(params, body) {}
 }
 
 // @ts-nocheck
@@ -5683,9 +5677,7 @@ class EfiPay extends AllMethods {
   constructor(options) {
     super();
     if (options.pix_cert) {
-      console.warn('');
-      console.warn('O parâmetro "pix_cert" foi preterido, utilize "certificate" no lugar');
-      console.warn('');
+      console.warn('⚠️  WARNING:\nO parâmetro "pix_cert" foi preterido, utilize "certificate" no lugar.');
       options.certificate = options.pix_cert;
     }
     let methods = {};
