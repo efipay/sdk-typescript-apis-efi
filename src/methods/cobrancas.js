@@ -1,5 +1,7 @@
 // @ts-nocheck
-export class CobrancasMethods {
+import { ExtratosMethods } from "./extratos";
+
+export class CobrancasMethods extends ExtratosMethods {
 
     /**
      * **POST /v1/charge/one-step**
@@ -85,7 +87,7 @@ export class CobrancasMethods {
      *         email: string,
      *         phone_number?: string,
      *         birth?: string,
-     *         address: {
+     *         address?: {
      *           street: string,
      *           number: string,
      *           neighborhood: string,
@@ -104,7 +106,7 @@ export class CobrancasMethods {
      *         type: 'percentage' | 'currency',
      *         value: number
      *       },
-     *       billing_address: {
+     *       billing_address?: {
      *         street: string,
      *         number: string,
      *         neighborhood: string,

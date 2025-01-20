@@ -570,11 +570,12 @@ var types = "dist/types/index.d.ts";
 var exports = {
 	".": {
 		require: "./dist/cjs/index.cjs",
-		"import": "./dist/cjs/index.cjs"
+		"import": "./dist/cjs/index.cjs",
+		types: "./dist/types/index.d.ts"
 	}
 };
 var description = "Module for integration with Efi Bank API";
-var version = "1.2.4";
+var version = "1.2.5";
 var deprecated = "Este pacote será descontinuado. Use o 'sdk-node-apis-efi' no lugar.";
 var author = "Efi Bank - Consultoria Técnica | João Vitor Oliveira | João Lucas";
 var license = "MIT";
@@ -864,7 +865,121 @@ class Endpoints {
 }
 
 // @ts-nocheck
-class CobrancasMethods {
+class ExtratosMethods {
+  /**
+   * **GET /v1/extrato-cnab/arquivos**
+   * 
+   * Consultar arquivos gerados
+   * 
+   * Este endpoint é utilizado para consultar os arquivos CNAB gerados e associados a uma conta específica.
+   * 
+   * Para capturar uma falha utilize o `catch`, o campo disponível será `mensagem`.
+   * 
+   * @returns { Promise <{
+   *  Array<{
+   *      data_geracao: string,
+   *      nome: string
+   *  }>
+   * }>}
+   */
+  listStatementFiles() {}
+
+  /**
+   * **GET /v1/extrato-cnab/download/:nome_arquivo**
+   * 
+   * Solicitar Download do extrato
+   * 
+   * Este endpoint é utilizado para Endpoint para solicitar download do extrato.
+   * 
+   * Para capturar uma falha utilize o `catch`, o campo disponível será `mensagem`.
+   * 
+   * @param { { nome_arquivo: string } } params
+   * 
+   * @returns { Promise<string> }
+   */
+  getStatementFile(params) {}
+
+  /**
+   * **GET /v1/extrato-cnab/agendamentos**
+   * 
+   * Consultar recorrências cadastradas
+   * 
+   * Este endpoint é utilizado para consultar os agendamentos de recorrências cadastradas em uma conta específica.
+   * 
+   * Para capturar uma falha utilize o `catch`, o campo disponível será `mensagem`.
+   * 
+   * @returns { Promise<{
+   *  Array<{
+   *      status: string,
+   *      periodicidade: string,
+   *      envia_email: boolean,
+   *      comprimir_arquivos: boolean,
+   *      data_criacao: string
+   *  }>
+   * }>}
+   * 
+   */
+  listStatementRecurrences() {}
+
+  /**
+   * **POST /v1/extrato-cnab/agendar**
+   * 
+   * Criar recorrência
+   * 
+   * Este endpoint é utilizado para criar uma nova recorrência.
+   * 
+   * Para capturar uma falha utilize o `catch`, o campo disponível será `mensagem`.
+   * 
+   * @param { {} } params 
+   * @param { {
+   *  periodicidade: string,
+   *  enviar_email: boolean,
+   *  comprimir_arquivos: boolean    
+   * } } body 
+   * 
+   * @returns { Promise<void> }
+   */
+  createStatementRecurrency(params, body) {}
+
+  /**
+   * **PATCH /v1/extrato-cnab/agendar/:identificador**
+   * 
+   * Revisar recorrência
+   * 
+   * Este endpoint é utilizado para atualizar ou modificar uma recorrência existente a partir do identificador. 
+   * 
+   * Para capturar uma falha utilize o `catch`, o campo disponível será `mensagem`.
+   * 
+   * @param { { identificador: string } } params 
+   * @param {{
+   *      periodicidade: string,
+   *      status: string,
+   *      envia_email: boolean,
+   *      comprimir_arquivos: boolean,
+   * }} body 
+   * 
+   * @returns { Promise<void> }
+   */
+  updateStatementRecurrency(params, body) {}
+
+  /**
+   * **POST /v1/extrato-cnab/gerar-chaves**
+   * 
+   * Gerar chave
+   * 
+   * Este endpoint é utilizado para gerar uma chave associada a uma conta específica.
+   * 
+   * Para capturar uma falha utilize o `catch`, o campo disponível será `mensagem`.
+   * 
+   * @returns { Promise<{
+   *  privateKey: string
+   * }>}
+   */
+  createSftpKey() {}
+}
+
+// @ts-nocheck
+class CobrancasMethods extends ExtratosMethods {
   /**
    * **POST /v1/charge/one-step**
    * 
@@ -949,7 +1064,7 @@ class CobrancasMethods {
    *         email: string,
    *         phone_number?: string,
    *         birth?: string,
-   *         address: {
+   *         address?: {
    *           street: string,
    *           number: string,
    *           neighborhood: string,
@@ -968,7 +1083,7 @@ class CobrancasMethods {
    *         type: 'percentage' | 'currency',
    *         value: number
    *       },
-   *       billing_address: {
+   *       billing_address?: {
    *         street: string,
    *         number: string,
    *         neighborhood: string,
@@ -3489,13 +3604,13 @@ class PixMethods extends CobrancasMethods {
   pixSend(params, body) {}
 
   /**
-   * **GET /v2/gn/pix/enviados/:e2eId**
+   * **GET /v2/gn/pix/enviados/:e2eid**
    * 
    * Consulta os dados de uma transferência Pix enviada.
    * 
    * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `type`, `title`, `status`, `detail` e dependendo da falha `violacoes`.
    * 
-   * @param { { e2eId: string } } params
+   * @param { { e2eid: string } } params
    * 
    * @returns {Promise<{
    *   endToEndId: string,
@@ -3573,8 +3688,10 @@ class PixMethods extends CobrancasMethods {
    * @param { {
    *   inicio: string,
    *   fim: string,
-   *   status: string,
-   *   devolucaoPresente: boolean
+   *   status?: string,
+   *   devolucaoPresente?: boolean,
+   *   "paginacao.itensPorPagina"?: number,
+   *   "paginacao.paginaAtual"?: number
    * } } params 
    * 
    * @returns {Promise<Array<{
@@ -3710,7 +3827,9 @@ class PixMethods extends CobrancasMethods {
    *   txIdPresente?: boolean,
    *   devolucaoPresente?: boolean,
    *   cpf?: string,
-   *   cnpj?: string
+   *   cnpj?: string,
+   *   "paginacao.itensPorPagina"?: number,
+   *   "paginacao.paginaAtual"?: number
    * } } params 
    * 
    * @returns {Promise<{
@@ -4793,6 +4912,37 @@ class PixMethods extends CobrancasMethods {
    * } | string>}
    */
   detailReport(params) {}
+
+  /**
+   * **POST /v2/gn/webhook/reenviar**
+   * 
+   * Reenviar webhook Pix
+   * 
+   * Endpoint que permite reenviar webhook pix.
+   * 
+   * É possível solicitar o reenvio de Webhooks para transações que ocorreram a partir do dia 27/12 às 10:00 da manhã.
+   * 
+   * O reenvio de webhook para uma transação fica disponível por um prazo máximo de 30 dias.
+   * 
+   * A tentativa de reenvio ocorre uma vez para cada webhook, NÃO existe reagendamentos como ocorre no envio normal. Caso o servidor do cliente esteja inoperante, o cliente terá que solicitar novamente o reenvio.
+   * 
+   * Nos casos de webhooks de devoluções (recebimento e envio) ocorre o reenvio de um webhook com todo o array de devolução ao invés de um webhook por devolução. Por exemplo, se você realizar duas devoluções relacionadas a um mesmo endToEndId, no envio, você receberá dois webhooks distintos. Porém, ao solicitar o reenvio, receberá apenas um webhook.
+   * 
+   * 
+   * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `type`, `title`, `status`, `detail` e dependendo da falha `violacoes`.
+   * 
+   * Obs: Se o extrato ainda não tiver sido processado, a resposta será sucesso(202) e o retorno será semelhante ao que é retornado na solicitação, informando em qual etapa de processamento está a solicitação.
+   * 
+   * @param { {} } params
+   * @param { {
+   *  tipo:  'PIX_RECEBIDO' | 'PIX_ENVIADO' | 'DEVOLUCAO_RECEBIDA' | 'DEVOLUCAO_ENVIADA',
+   *  e2eids: Array<string>
+   * } } body 
+   * 
+   * @returns { Promise<void> }
+   * 
+   */
+  pixResendWebhook(params, body) {}
 }
 
 // @ts-nocheck

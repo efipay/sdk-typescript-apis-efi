@@ -1238,13 +1238,13 @@ export class PixMethods extends CobrancasMethods {
         status: string;
     }>;
     /**
-     * **GET /v2/gn/pix/enviados/:e2eId**
+     * **GET /v2/gn/pix/enviados/:e2eid**
      *
      * Consulta os dados de uma transferência Pix enviada.
      *
      * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `type`, `title`, `status`, `detail` e dependendo da falha `violacoes`.
      *
-     * @param { { e2eId: string } } params
+     * @param { { e2eid: string } } params
      *
      * @returns {Promise<{
      *   endToEndId: string,
@@ -1274,7 +1274,7 @@ export class PixMethods extends CobrancasMethods {
      * }>}
      */
     pixSendDetail(params: {
-        e2eId: string;
+        e2eid: string;
     }): Promise<{
         endToEndId: string;
         idEnvio: string;
@@ -1375,8 +1375,10 @@ export class PixMethods extends CobrancasMethods {
      * @param { {
      *   inicio: string,
      *   fim: string,
-     *   status: string,
-     *   devolucaoPresente: boolean
+     *   status?: string,
+     *   devolucaoPresente?: boolean,
+     *   "paginacao.itensPorPagina"?: number,
+     *   "paginacao.paginaAtual"?: number
      * } } params
      *
      * @returns {Promise<Array<{
@@ -1409,8 +1411,10 @@ export class PixMethods extends CobrancasMethods {
     pixSendList(params: {
         inicio: string;
         fim: string;
-        status: string;
-        devolucaoPresente: boolean;
+        status?: string;
+        devolucaoPresente?: boolean;
+        "paginacao.itensPorPagina"?: number;
+        "paginacao.paginaAtual"?: number;
     }): Promise<Array<{
         endToEndId: string;
         idEnvio: string;
@@ -1600,7 +1604,9 @@ export class PixMethods extends CobrancasMethods {
      *   txIdPresente?: boolean,
      *   devolucaoPresente?: boolean,
      *   cpf?: string,
-     *   cnpj?: string
+     *   cnpj?: string,
+     *   "paginacao.itensPorPagina"?: number,
+     *   "paginacao.paginaAtual"?: number
      * } } params
      *
      * @returns {Promise<{
@@ -1641,6 +1647,8 @@ export class PixMethods extends CobrancasMethods {
         devolucaoPresente?: boolean;
         cpf?: string;
         cnpj?: string;
+        "paginacao.itensPorPagina"?: number;
+        "paginacao.paginaAtual"?: number;
     }): Promise<{
         parametros: {
             inicio: string;
@@ -3301,5 +3309,38 @@ export class PixMethods extends CobrancasMethods {
         dataSolicitacao: string;
         status: string;
     } | string>;
+    /**
+     * **POST /v2/gn/webhook/reenviar**
+     *
+     * Reenviar webhook Pix
+     *
+     * Endpoint que permite reenviar webhook pix.
+     *
+     * É possível solicitar o reenvio de Webhooks para transações que ocorreram a partir do dia 27/12 às 10:00 da manhã.
+     *
+     * O reenvio de webhook para uma transação fica disponível por um prazo máximo de 30 dias.
+     *
+     * A tentativa de reenvio ocorre uma vez para cada webhook, NÃO existe reagendamentos como ocorre no envio normal. Caso o servidor do cliente esteja inoperante, o cliente terá que solicitar novamente o reenvio.
+     *
+     * Nos casos de webhooks de devoluções (recebimento e envio) ocorre o reenvio de um webhook com todo o array de devolução ao invés de um webhook por devolução. Por exemplo, se você realizar duas devoluções relacionadas a um mesmo endToEndId, no envio, você receberá dois webhooks distintos. Porém, ao solicitar o reenvio, receberá apenas um webhook.
+     *
+     *
+     * Para capturar uma falha utilize o `catch`, os campos disponíveis no objeto serão `type`, `title`, `status`, `detail` e dependendo da falha `violacoes`.
+     *
+     * Obs: Se o extrato ainda não tiver sido processado, a resposta será sucesso(202) e o retorno será semelhante ao que é retornado na solicitação, informando em qual etapa de processamento está a solicitação.
+     *
+     * @param { {} } params
+     * @param { {
+     *  tipo:  'PIX_RECEBIDO' | 'PIX_ENVIADO' | 'DEVOLUCAO_RECEBIDA' | 'DEVOLUCAO_ENVIADA',
+     *  e2eids: Array<string>
+     * } } body
+     *
+     * @returns { Promise<void> }
+     *
+     */
+    pixResendWebhook(params: {}, body: {
+        tipo: 'PIX_RECEBIDO' | 'PIX_ENVIADO' | 'DEVOLUCAO_RECEBIDA' | 'DEVOLUCAO_ENVIADA';
+        e2eids: Array<string>;
+    }): Promise<void>;
 }
 import { CobrancasMethods } from "./cobrancas";
