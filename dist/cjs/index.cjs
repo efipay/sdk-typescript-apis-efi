@@ -584,7 +584,7 @@ var exports$1 = {
 	}
 };
 var description = "Module for integration with Efi Bank API";
-var version = "1.2.5";
+var version = "1.2.6";
 var deprecated = "Este pacote será descontinuado. Use o 'sdk-node-apis-efi' no lugar.";
 var author = "Efi Bank - Consultoria Técnica | João Vitor Oliveira | João Lucas";
 var license = "MIT";
@@ -778,6 +778,9 @@ class Endpoints {
     });
   }
   isExpired() {
+    if (!this.options.cache) {
+      return true;
+    }
     let current_time = new Date().getTime() / 1000;
     if (current_time > this.auth.authDate + this.auth.expires_in) {
       return true;
@@ -850,7 +853,10 @@ class Endpoints {
     updateRoute();
     query = getQueryString();
     let headers = new Object();
-    headers['x-skip-mtls-checking'] = !this.options.validateMtls;
+    if (endpoint.route === this.constants.APIS.PIX.ENDPOINTS.pixConfigWebhook.route && endpoint.method === this.constants.APIS.PIX.ENDPOINTS.pixConfigWebhook.method) {
+      this.options.validateMtls = this.options.validateMtls || this.options.validate_mtls;
+      headers['x-skip-mtls-checking'] = !this.options.validateMtls;
+    }
     if (this.options.partner_token) {
       headers['partner-token'] = this.options.partner_token;
     }
@@ -5820,12 +5826,18 @@ class EfiPay extends AllMethods {
    * @param {string} [options.partner_token] - Token de parceiro caso tenha.
    * @param {string} [options.certificate] - Caminho para o certificado
    * @param {boolean} [options.cert_base64] - Indica se será enviado o certificado em base64
+   * @param {boolean} [options.validate_mtls] - Indica se será utilizado mTLS ou não no webhook
+   * @param {boolean} [options.validateMtls] - Indica se será utilizado mTLS ou não no webhook 
+   * @param {boolean} [options.cache] - Inidica se você deseja usar cache no token de autenticação, por padrão `true`
    * 
    * @param {string} [options.pix_cert] - # PRETERIDO # Caminho para o certificado
    * @param {string} [options.pemKey] - Caminho para a chave privada, caso opte por enviar o certificado em PEM.
   */
   constructor(options) {
     super();
+    if (options.cache === undefined) {
+      options.cache = true;
+    }
     if (options.pix_cert) {
       console.warn('⚠️  WARNING:\nO parâmetro "pix_cert" foi preterido, utilize "certificate" no lugar.');
       options.certificate = options.pix_cert;
